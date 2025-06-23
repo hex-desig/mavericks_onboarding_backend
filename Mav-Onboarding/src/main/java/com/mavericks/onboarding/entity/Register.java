@@ -107,8 +107,8 @@ package com.mavericks.onboarding.entity;
 	}
 
 	enum Role {
-	    FRESHER,
-	    ADMIN
+		fresher,
+	    admin
 	}
 
 
