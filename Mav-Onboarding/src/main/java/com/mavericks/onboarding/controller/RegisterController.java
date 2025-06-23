@@ -1,6 +1,7 @@
 package com.mavericks.onboarding.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mavericks.onboarding.dto.LoginRequest;
 import com.mavericks.onboarding.entity.Register;
+import com.mavericks.onboarding.exception.UserAlreadyExistsException;
 import com.mavericks.onboarding.serivce.AuthService;
 import com.mavericks.onboarding.serivce.RegisterService;
 
@@ -20,32 +22,37 @@ public class RegisterController {
 
 	@Autowired
 	private RegisterService registerService;
-	
+
 	@Autowired
 	private AuthService authService;
 
-	@PostMapping ("/user")
-	public Register registerUser(@RequestBody Register register) {
-		return registerService.registerUser(register);				
+	@PostMapping("/create")
+	public ResponseEntity<String> registerUser(@RequestBody Register register) {
+		try {
+			String result = registerService.registerUser(register);
+			return ResponseEntity.ok(result);
+		} catch (UserAlreadyExistsException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+		}
 	}
-	
+
 	@PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Invalid username or password");
-        }
-    }
-	
-	@DeleteMapping("/delete/{username}")
-    public ResponseEntity<String> deleteUser(@PathVariable String email) {
-        boolean deleted = registerService.deleteByUsername(email);
-        if (deleted) {
-            return ResponseEntity.ok("User deleted successfully");
-        } else {
-            return ResponseEntity.status(404).body("User not found");
-        }
-    }
+	public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+		boolean isAuthenticated = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+		if (isAuthenticated) {
+			return ResponseEntity.ok("Login successful");
+		} else {
+			return ResponseEntity.status(401).body("Invalid username or password");
+		}
+	}
+
+	@DeleteMapping("/delete/{email}")
+	public ResponseEntity<String> deleteUser(@PathVariable String email) {
+		boolean deleted = registerService.deleteByUsername(email);
+		if (deleted) {
+			return ResponseEntity.ok("User deleted successfully");
+		} else {
+			return ResponseEntity.status(404).body("User not found");
+		}
+	}
 }

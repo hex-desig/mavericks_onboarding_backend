@@ -8,6 +8,6 @@ import com.mavericks.onboarding.entity.Register;
 @Repository
 public interface RegisterRepo extends JpaRepository <Register, String> {
 	
-	Register findByUsername(String username);
+	Register findByEmail(String email);
 
 }
