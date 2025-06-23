@@ -17,8 +17,8 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    public boolean authenticate(String username, String password) {
-        Register user = registerRepo.findByUsername(username);
+    public boolean authenticate(String email, String password) {
+        Register user = registerRepo.findByEmail(email);
         if (user != null) {
             return passwordEncoder.matches(password, user.getPassword());
         }

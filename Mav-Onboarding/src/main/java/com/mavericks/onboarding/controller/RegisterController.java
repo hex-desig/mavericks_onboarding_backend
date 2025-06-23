@@ -29,7 +29,7 @@ public class RegisterController {
 	
 	@PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        boolean isAuthenticated = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         if (isAuthenticated) {
             return ResponseEntity.ok("Login successful");
         } else {
