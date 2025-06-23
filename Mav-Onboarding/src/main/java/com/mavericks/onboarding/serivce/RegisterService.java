@@ -24,7 +24,14 @@ public class RegisterService {
 		
 	}
 	
-	
+	 public boolean deleteByUsername(String email) {
+	        Register user = registerRepo.findByUsername(email);
+	        if (user != null) {
+	        	registerRepo.delete(user);
+	            return true;
+	        }
+	        return false;
+	    }
 	
 
 }
