@@ -41,4 +41,19 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User  not found"));
     }
+    
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+        return user; // Return the user if login is successful
+    }
+    public void deleteUser (String userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User  not found");
+        }
+        userRepository.deleteById(userId);
+    }
 }
+
