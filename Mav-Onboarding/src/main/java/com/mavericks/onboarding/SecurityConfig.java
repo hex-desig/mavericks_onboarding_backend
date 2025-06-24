@@ -10,23 +10,19 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
-	
-	 @SuppressWarnings({ "removal", "deprecation" })
-	@Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	        http.csrf().disable()
-	            .authorizeRequests()
-	            .requestMatchers("/register/login").permitAll()
-	            .requestMatchers("/register/create").permitAll()
-	            .requestMatchers("/register/delete/{username}").permitAll()
-	            .anyRequest().authenticated();
-	        return http.build();
-	    }
-	
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+public class SecurityConfig {
 
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests()
+				.requestMatchers("/api/v1/users", "/api/v1/users/login", "/api/v1/users/delete/{userId}").permitAll()
+				.requestMatchers("/api/v1/onboarding-plans","/api/v1/test").authenticated() // Require authentication for onboarding plans
+				.anyRequest().authenticated();
+		return http.build();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

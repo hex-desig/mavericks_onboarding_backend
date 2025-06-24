@@ -13,23 +13,23 @@ import jakarta.persistence.Table;
 @Table(name = "onboarding_plans")
 public class OnboardingPlan {
     @Id
-    @Column(name = "plan_id", length = 20)
+    @Column(name = "plan_id")
     private String planId;
     
-    @Column(name = "user_id", length = 20)
+    @Column(name = "user_id")
     private String userId;
     
-    @Column(name = "plan_details", columnDefinition = "TEXT")
+    @Column(name = "plan_details")
     private String planDetails;
     
-    @Column(name = "assessment_name", columnDefinition = "TEXT")
+    @Column(name = "assessment_name")
     private String assessmentName;
     
-    @Column(name = "quiz_name", columnDefinition = "TEXT")
+    @Column(name = "quiz_name")
     private String quizName;
     
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
     private Timestamp createdAt;
 
     // Constructors
