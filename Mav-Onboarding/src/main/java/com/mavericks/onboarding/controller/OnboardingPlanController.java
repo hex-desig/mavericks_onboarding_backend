@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mavericks.onboarding.dto.ApiResponse;
 import com.mavericks.onboarding.dto.OnboardingPlanCreateRequest;
 import com.mavericks.onboarding.entity.OnboardingPlan;
-import com.mavericks.onboarding.serivce.OnboardingPlanService;
+import com.mavericks.onboarding.service.OnboardingPlanService;
 
 @RestController
 @RequestMapping("/api/v1/onboarding-plans")

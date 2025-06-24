@@ -26,10 +26,10 @@ public class Assessment {
     @Column(name = "submission_date")
     private Timestamp submissionDate;
     
-    @Column(precision = 5, scale = 2)
+    @Column(name = "score")
     private Double score;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "feedback")
     private String feedback;
 
     // Constructors
