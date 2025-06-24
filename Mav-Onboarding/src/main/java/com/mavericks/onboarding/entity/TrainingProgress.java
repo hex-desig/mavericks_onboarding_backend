@@ -37,7 +37,7 @@ public class TrainingProgress {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
     
-    @Column(precision = 5, scale = 2)
+    @Column(name = "score")
     private Double score;
     
     @UpdateTimestamp

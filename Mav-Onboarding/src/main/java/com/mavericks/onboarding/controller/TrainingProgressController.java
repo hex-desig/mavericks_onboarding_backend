@@ -14,7 +14,7 @@ import com.mavericks.onboarding.dto.ApiResponse;
 import com.mavericks.onboarding.dto.ProgressUpdateRequest;
 import com.mavericks.onboarding.dto.TrainingProgressCreateRequest;
 import com.mavericks.onboarding.entity.TrainingProgress;
-import com.mavericks.onboarding.serivce.TrainingProgressService;
+import com.mavericks.onboarding.service.TrainingProgressService;
 
 @RestController
 @RequestMapping("/api/v1/training-progress")

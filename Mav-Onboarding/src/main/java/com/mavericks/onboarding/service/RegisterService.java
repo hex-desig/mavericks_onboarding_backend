@@ -1,4 +1,4 @@
-package com.mavericks.onboarding.serivce;
+package com.mavericks.onboarding.service;
 
 import java.sql.Timestamp;
 import java.time.Instant;

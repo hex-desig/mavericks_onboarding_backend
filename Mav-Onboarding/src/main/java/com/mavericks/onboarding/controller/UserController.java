@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mavericks.onboarding.dto.ApiResponse;
 import com.mavericks.onboarding.dto.UserCreateRequest;
 import com.mavericks.onboarding.entity.User;
-import com.mavericks.onboarding.serivce.UserService; // Corrected spelling of 'service'
+import com.mavericks.onboarding.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")

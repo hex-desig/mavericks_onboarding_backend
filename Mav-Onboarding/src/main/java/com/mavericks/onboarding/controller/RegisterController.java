@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mavericks.onboarding.dto.LoginRequest;
 import com.mavericks.onboarding.entity.Register;
 import com.mavericks.onboarding.exception.UserAlreadyExistsException;
-import com.mavericks.onboarding.serivce.AuthService;
-import com.mavericks.onboarding.serivce.RegisterService;
+import com.mavericks.onboarding.service.AuthService;
+import com.mavericks.onboarding.service.RegisterService;
 
 @RestController
 @RequestMapping("/register")
