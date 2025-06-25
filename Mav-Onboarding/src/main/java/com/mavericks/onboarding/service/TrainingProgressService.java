@@ -15,16 +15,16 @@ import com.mavericks.onboarding.repo.TrainingProgressRepository;
 public class TrainingProgressService {
 
 	    private final TrainingProgressRepository progressRepository;
-	    private final UserService userService;
+	    private final AuthService authService;
 	    
 	    @Autowired
-	    public TrainingProgressService(TrainingProgressRepository progressRepository,  UserService userService) {
+	    public TrainingProgressService(TrainingProgressRepository progressRepository,  AuthService authService) {
 	        this.progressRepository = progressRepository;
-	        this.userService = userService;
+	        this.authService = authService;
 	    }
 
 	    public TrainingProgress startProgress(TrainingProgressCreateRequest request) {
-	        userService.getUserById(request.userId());
+	        authService.getUserById(request.userId());
 	        
 	        TrainingProgress progress = new TrainingProgress();
 	        progress.setProgressId(UUID.randomUUID().toString().substring(0, 20));

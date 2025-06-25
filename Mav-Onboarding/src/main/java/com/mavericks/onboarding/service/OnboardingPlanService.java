@@ -13,18 +13,18 @@ import com.mavericks.onboarding.repo.OnboardingPlanRepository;
 @Service
 public class OnboardingPlanService {
     private final OnboardingPlanRepository planRepository;
-    private final UserService userService;
+    private final AuthService authService;
     private final OpenAIService openAIService;
 
     @Autowired
-    public OnboardingPlanService(OnboardingPlanRepository planRepository, UserService userService, OpenAIService openAIService) {
+    public OnboardingPlanService(OnboardingPlanRepository planRepository, AuthService authService, OpenAIService openAIService) {
         this.planRepository = planRepository;
-        this.userService = userService;
+        this.authService = authService;
         this.openAIService = openAIService;
     }
 
     public OnboardingPlan createPlan(OnboardingPlanCreateRequest request,String userId) {
-        userService.getUserById(userId); // Validate user exists
+        authService.getUserById(userId); // Validate user exists
 
         // Create a prompt for the OpenAI API to fetch the training plan
         String trainingPlanPrompt = String.format(

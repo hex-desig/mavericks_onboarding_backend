@@ -1,9 +1,14 @@
 package com.mavericks.onboarding.entity;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +20,7 @@ import com.mavericks.onboarding.enums.Role; // Ensure this import is correct
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails{
     @Id
     @Column(name = "user_id", length = 20)
     private String userId;
@@ -107,5 +112,15 @@ public class User {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 }

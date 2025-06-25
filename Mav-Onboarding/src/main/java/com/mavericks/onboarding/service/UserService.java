@@ -1,59 +1,41 @@
 package com.mavericks.onboarding.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import com.mavericks.onboarding.dto.LoginRequest;
+import com.mavericks.onboarding.dto.LoginResponse;
 import com.mavericks.onboarding.dto.UserCreateRequest;
+import com.mavericks.onboarding.entity.JwtUtil;
 import com.mavericks.onboarding.entity.User;
 import com.mavericks.onboarding.repo.UserRepository;
 
 @Service
-public class UserService {
-
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
+public class UserService implements UserServiceInterface {
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public User createUser (UserCreateRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-        
-        User user = new User();
-        user.setUserId(UUID.randomUUID().toString().substring(0, 20));
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setName(request.getName());
-        user.setRole(request.getRole()); // Ensure this matches the User entity's Role type
-        
-        return userRepository.save(user);
-    }
-
-    public User getUserById(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User  not found"));
-    }
+    private  UserRepository userRepository;
     
-    public User login(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
-        }
-        return user; // Return the user if login is successful
-    }
-    public void deleteUser (String userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User  not found");
-        }
-        userRepository.deleteById(userId);
-    }
+    @Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findFirstByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return user; 
+	}
+
+	@Override
+	public UserDetailsService userDetailsService() {
+
+				return this;
+	}
 }
 
